@@ -1,23 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, RefreshCw, Bookmark, Share2, Info, ArrowLeftRight, Check, Sparkles, Smile, Maximize2, Minimize2, Trash2 } from 'lucide-react';
-import { Product } from '../types';
-
-interface VirtualTryOnProps {
-  lang: 'en' | 'hi';
-  products: Product[];
-  currentRecommendedId: string | null;
-  setRecommendedBindiId: (id: string | null) => void;
-  onAddLead: (lead: { name: string; email: string; phone: string; source: 'Try-On User' | 'Newsletter' | 'Contact Form' | 'WhatsApp'; notes: string }) => void;
-}
-
 export default function VirtualTryOn({
   lang,
   products,
   currentRecommendedId,
   setRecommendedBindiId,
   onAddLead
-}: VirtualTryOnProps) {
-  const [selectedBindi, setSelectedBindi] = useState<Product | null>(
+}) {
+  const [selectedBindi, setSelectedBindi] = useState(
     products.find(p => p.id === currentRecommendedId) || products[0]
   );
 
@@ -38,13 +28,13 @@ export default function VirtualTryOn({
   const [bindiSize, setBindiSize] = useState(24); // px
   const [isDragging, setIsDragging] = useState(false);
   const [beforeAfter, setBeforeAfter] = useState<'both' | 'after'>('after'); // comparative toggle
-  const [savedLooks, setSavedLooks] = useState<{ id: string; bindiName: string; modelName: string; date: string }[]>([]);
+  const [savedLooks, setSavedLooks] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
+  const containerRef = useRef(null);
 
   // Track if recommended id changed globally
   useEffect(() => {
@@ -68,7 +58,7 @@ export default function VirtualTryOn({
       }
       setIsCameraActive(true);
       setUseCamera(true);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
       setCameraError(lang === 'en' 
         ? 'Could not access local camera. Ensure browser frame permissions are allowed.' 
@@ -98,12 +88,12 @@ export default function VirtualTryOn({
   }, []);
 
   // Handle Dragging / Mouse Coordinates
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleMouseDown = (e) => {
     e.preventDefault();
     setIsDragging(true);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e) => {
     if (!isDragging || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -120,7 +110,7 @@ export default function VirtualTryOn({
   };
 
   // Touch handlers for mobile responsive try-on
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchMove = (e) => {
     if (!containerRef.current || e.touches.length === 0) return;
     const rect = containerRef.current.getBoundingClientRect();
     const touch = e.touches[0];
@@ -153,7 +143,7 @@ export default function VirtualTryOn({
     });
   };
 
-  const handleRemoveLook = (id: string) => {
+  const handleRemoveLook = (id) => {
     setSavedLooks(savedLooks.filter(l => l.id !== id));
   };
 

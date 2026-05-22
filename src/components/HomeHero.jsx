@@ -1,12 +1,6 @@
 import { Sparkles, ArrowRight, Camera, Star, Heart, Bookmark, MessageSquare } from 'lucide-react';
 
-interface HomeHeroProps {
-  lang: 'en' | 'hi';
-  setCurrentTab: (tab: string) => void;
-  onSelectProduct: (productId: string) => void;
-}
-
-export default function HomeHero({ lang, setCurrentTab, onSelectProduct }: HomeHeroProps) {
+export default function HomeHero({ lang, setCurrentTab, onSelectProduct }) {
   const occasions = [
     { id: 'Wedding', name: lang === 'en' ? 'Grand Wedding' : 'शादी समारोह', desc: lang === 'en' ? 'Royal heavy stones' : 'शाही भारी पत्थर बिंदी', img: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=300' },
     { id: 'Festival', name: lang === 'en' ? 'Festive Joy' : 'त्यौहार विशेष', desc: lang === 'en' ? 'traditional colours' : 'पारंपरिक सुंदर रंग', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=300' },

@@ -1,11 +1,6 @@
 import { Sparkles, MessageSquare, ShieldCheck, Mail, MapPin, Award } from 'lucide-react';
 
-interface FooterProps {
-  lang: 'en' | 'hi';
-  setCurrentTab: (tab: string) => void;
-}
-
-export default function Footer({ lang, setCurrentTab }: FooterProps) {
+export default function Footer({ lang, setCurrentTab }) {
   return (
     <footer id="brand_footer" className="bg-[#080506] border-t border-[#5c141d]/50 pt-12 pb-8 px-6 text-[#ebdcb9]/75 text-sm">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">

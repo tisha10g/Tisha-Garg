@@ -1,18 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Send, X, RefreshCw, Sparkles, User, Smile } from 'lucide-react';
 
-interface AIChatbotProps {
-  lang: 'en' | 'hi';
-}
-
-export default function AIChatbot({ lang }: AIChatbotProps) {
+export default function AIChatbot({ lang }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ role: 'user' | 'model'; content: string }[]>([
+  const [messages, setMessages] = useState([
     { role: 'model', content: lang === 'en' ? "Pranam! I am Kusum, your Royal Styling & Design assistant. Tell me about your face shape or outfit, and let me find your perfect bindi match." : "प्रणाम! मैं कुसुम हूं, आपकी शाही एआई स्टाइलिंग सहायक। मुझे अपने चेहरे के आकार या पोशाक के बारे में बताएं।" }
   ]);
   const [inputVal, setInputVal] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -20,7 +16,7 @@ export default function AIChatbot({ lang }: AIChatbotProps) {
     }
   }, [messages, isOpen]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!inputVal.trim() || isSending) return;
 
@@ -28,7 +24,7 @@ export default function AIChatbot({ lang }: AIChatbotProps) {
     setInputVal('');
     
     // Add user message locally
-    const updatedMessages = [...messages, { role: 'user' as const, content: userMsg }];
+    const updatedMessages = [...messages, { role: 'user', content: userMsg }];
     setMessages(updatedMessages);
     setIsSending(true);
 

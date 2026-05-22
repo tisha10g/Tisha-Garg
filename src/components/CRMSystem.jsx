@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Users, UserCheck, TrendingUp, Mail, HelpCircle, Award, Check, Send, PhoneCall, Gift, Search, RefreshCw, BarChart3, AlertCircle } from 'lucide-react';
-import { Customer, Lead, Order, Campaign, Ticket } from '../types';
-
-interface CRMProps {
-  lang: 'en' | 'hi';
-}
-
-export default function CRMSystem({ lang }: CRMProps) {
-  const [activeSubTab, setActiveSubTab] = useState<'analytics' | 'customers' | 'leads' | 'marketing' | 'tickets' | 'loyalty'>('analytics');
+export default function CRMSystem({ lang }) {
+  const [activeSubTab, setActiveSubTab] = useState('analytics');
   
   // Dynamic states fetched from backend
-  const [customers, setCustomers] = useState<Customer[]>([]);
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [customers, setCustomers] = useState([]);
+  const [leads, setLeads] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [campaigns, setCampaigns] = useState([]);
+  const [tickets, setTickets] = useState([]);
   
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -22,7 +16,7 @@ export default function CRMSystem({ lang }: CRMProps) {
   // Marketing campaign creator modal
   const [campTitle, setCampTitle] = useState('');
   const [campSubject, setCampSubject] = useState('');
-  const [campChannel, setCampChannel] = useState<'Email' | 'WhatsApp' | 'SMS'>('Email');
+  const [campChannel, setCampChannel] = useState('Email');
   const [campBody, setCampBody] = useState('');
   const [campSegment, setCampSegment] = useState('All');
 
@@ -67,7 +61,7 @@ export default function CRMSystem({ lang }: CRMProps) {
   }, [activeSubTab]);
 
   // Handle support ticket status update
-  const handleResolveTicket = async (id: string, newStatus: 'Open' | 'In Progress' | 'Resolved') => {
+  const handleResolveTicket = async (id, newStatus) => {
     try {
       const response = await fetch(`/api/tickets/${id}`, {
         method: 'PUT',
@@ -83,7 +77,7 @@ export default function CRMSystem({ lang }: CRMProps) {
   };
 
   // Handle Campaign creation inside Marketing panel
-  const handleCreateCampaign = async (e: React.FormEvent) => {
+  const handleCreateCampaign = async (e) => {
     e.preventDefault();
     if (!campTitle || !campBody) return;
 
@@ -163,7 +157,7 @@ export default function CRMSystem({ lang }: CRMProps) {
           return (
             <button
               key={sub.id}
-              onClick={() => setActiveSubTab(sub.id as any)}
+              onClick={() => setActiveSubTab(sub.id)}
               className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold rounded-t-xl transition cursor-pointer border-t border-x ${
                 isActive 
                   ? 'bg-[#120c0d] border-[#5c141d]/30 text-[#bc8f42]' 
@@ -437,7 +431,7 @@ export default function CRMSystem({ lang }: CRMProps) {
                   <label className="text-[10px] uppercase text-gray-400 font-bold font-mono">Channel</label>
                   <select
                     value={campChannel}
-                    onChange={(e) => setCampChannel(e.target.value as any)}
+                    onChange={(e) => setCampChannel(e.target.value)}
                     className="w-full bg-[#120c0d] border border-[#5c141d]/40 rounded-lg p-2 font-semibold"
                   >
                     <option value="Email">📧 Email</option>

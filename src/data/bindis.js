@@ -1,6 +1,4 @@
-import { Product } from '../types';
-
-export const BINDIS_DATA: Product[] = [
+export const BINDIS_DATA = [
   {
     id: 'b1',
     name: 'Kusum Royal Bridal Kundan Bindi',

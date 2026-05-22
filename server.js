@@ -191,8 +191,8 @@ let database = {
 };
 
 // Lazy creation of GoogleGenAI client (so it doesn't crash on startup if API key is missing)
-let genAIClient: GoogleGenAI | null = null;
-function getGenAI(): GoogleGenAI {
+let genAIClient = null;
+function getGenAI() {
   if (!genAIClient) {
     const key = process.env.GEMINI_API_KEY;
     if (!key) {
@@ -276,7 +276,7 @@ app.post("/api/gemini/recommend", async (req, res) => {
     const parsedData = JSON.parse(response.text || "{}");
     return res.json({ success: true, recommendation: parsedData });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error("Gemini AI styling engine error:", error);
     // Graceful fallback description when API key is missing or model throws an error
     return res.json({
@@ -321,7 +321,7 @@ app.post("/api/gemini/chat", async (req, res) => {
     });
 
     return res.json({ response: response.text });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Gemini chat error:", error);
     // Generic cute chatbot fallback
     return res.json({ 
@@ -383,7 +383,7 @@ app.post("/api/orders", (req, res) => {
     date: new Date().toISOString().split('T')[0],
     items,
     total,
-    status: 'Pending' as const,
+    status: 'Pending',
     paymentMethod,
     trackingNumber: paymentMethod === 'Card' ? 'IN' + Math.floor(10000 + Math.random() * 90000) + 'X' : undefined
   };

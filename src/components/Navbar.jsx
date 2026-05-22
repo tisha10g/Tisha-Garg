@@ -1,15 +1,6 @@
 import { useState } from 'react';
 import { Sparkles, Calendar, Tag, Activity, ShoppingBag, Info, Phone, Users, ShieldAlert, Heart, MessageSquare } from 'lucide-react';
 
-interface NavbarProps {
-  currentTab: string;
-  setCurrentTab: (tab: string) => void;
-  lang: 'en' | 'hi';
-  setLang: (lang: 'en' | 'hi') => void;
-  cartCount: number;
-  wishlistCount: number;
-}
-
 export default function Navbar({
   currentTab,
   setCurrentTab,
@@ -17,7 +8,7 @@ export default function Navbar({
   setLang,
   cartCount,
   wishlistCount
-}: NavbarProps) {
+}) {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const navigation = [

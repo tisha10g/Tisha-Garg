@@ -1,22 +1,5 @@
 import React, { useState } from 'react';
 import { Star, SlidersHorizontal, ShieldCheck, Heart, ShoppingBag, Eye, X, CheckCircle, Gift, Truck } from 'lucide-react';
-import { Product } from '../types';
-
-interface ProductCatalogProps {
-  lang: 'en' | 'hi';
-  products: Product[];
-  onCreateOrder: (order: { customerName: string; customerEmail: string; items: any[]; total: number; paymentMethod: 'COD' | 'Card' }) => void;
-  onRefreshData: () => void;
-  wishlist: string[];
-  onToggleWishlist: (id: string) => void;
-  cart: { product: Product; quantity: number }[];
-  onAddToCart: (p: Product) => void;
-  onRemoveFromCart: (id: string) => void;
-  onClearCart: () => void;
-  selectedDetailId: string | null;
-  setSelectedDetailId: (id: string | null) => void;
-}
-
 export default function ProductCatalog({
   lang,
   products,
@@ -30,21 +13,21 @@ export default function ProductCatalog({
   onClearCart,
   selectedDetailId,
   setSelectedDetailId
-}: ProductCatalogProps) {
+}) {
   // Filter states
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-  const [activeFaceCompat, setActiveFaceCompat] = useState<string>('All');
-  const [activeSize, setActiveSize] = useState<string>('All');
-  const [priceSort, setPriceSort] = useState<'none' | 'low-high' | 'high-low'>('none');
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeFaceCompat, setActiveFaceCompat] = useState('All');
+  const [activeSize, setActiveSize] = useState('All');
+  const [priceSort, setPriceSort] = useState('none');
 
   // Checkout flows
   const [showCheckout, setShowCheckout] = useState(false);
   const [checkoutName, setCheckoutName] = useState('');
   const [checkoutEmail, setCheckoutEmail] = useState('');
   const [checkoutPhone, setCheckoutPhone] = useState('');
-  const [checkoutMethod, setCheckoutMethod] = useState<'COD' | 'Card'>('COD');
+  const [checkoutMethod, setCheckoutMethod] = useState('COD');
   const [isOrdering, setIsOrdering] = useState(false);
-  const [orderCompleteCode, setOrderCompleteCode] = useState<string | null>(null);
+  const [orderCompleteCode, setOrderCompleteCode] = useState(null);
 
   // New review submission state inside detailmodal
   const [newReviewAuthor, setNewReviewAuthor] = useState('');
@@ -54,7 +37,7 @@ export default function ProductCatalog({
   // Filtering calculations
   const filteredProducts = products.filter((p) => {
     const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
-    const matchesShape = activeFaceCompat === 'All' || p.recommendedFaceShapes.includes(activeFaceCompat as any);
+    const matchesShape = activeFaceCompat === 'All' || p.recommendedFaceShapes.includes(activeFaceCompat);
     const matchesSize = activeSize === 'All' || p.size === activeSize || p.size === 'Combo';
     return matchesCategory && matchesShape && matchesSize;
   });
@@ -70,7 +53,7 @@ export default function ProductCatalog({
   const relatedProducts = products.filter(p => p.id !== selectedDetailId).slice(0, 3);
 
   // Checkout submission handling
-  const handlePlaceOrder = async (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
     if (!checkoutName || !checkoutEmail) return;
 
@@ -109,7 +92,7 @@ export default function ProductCatalog({
   };
 
   // Live Review Adding
-  const handleSubmitReview = (e: React.FormEvent) => {
+  const handleSubmitReview = (e) => {
     e.preventDefault();
     if (!newReviewAuthor || !newReviewText || !selectedProduct) return;
     
@@ -215,7 +198,7 @@ export default function ProductCatalog({
                 <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Sort by price:</span>
                 <select
                   value={priceSort}
-                  onChange={(e) => setPriceSort(e.target.value as any)}
+                  onChange={(e) => setPriceSort(e.target.value)}
                   className="w-full bg-[#0b0708] border border-[#5c141d]/30 rounded-lg p-2 text-xs text-[#ebdcb9]"
                 >
                   <option value="none">Standard sorting</option>

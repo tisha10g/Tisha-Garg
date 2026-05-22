@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Package, Plus, Trash2, Edit, RefreshCw, Layers, CheckCircle2, DollarSign, Archive, RotateCcw } from 'lucide-react';
-import { Product, Order } from '../types';
-
-interface AdminPanelProps {
-  lang: 'en' | 'hi';
-  onRefreshData: () => void;
-}
-
-export default function AdminPanel({ lang, onRefreshData }: AdminPanelProps) {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
+export default function AdminPanel({ lang, onRefreshData }) {
+  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   // New product form states
   const [newProductName, setNewProductName] = useState('');
-  const [newProductCategory, setNewProductCategory] = useState<'Bridal' | 'Stone' | 'Velvet' | 'Designer' | 'Traditional' | 'Minimalist'>('Designer');
+  const [newProductCategory, setNewProductCategory] = useState('Designer');
   const [newProductPrice, setNewProductPrice] = useState(199);
   const [newProductImage, setNewProductImage] = useState('');
-  const [newProductSize, setNewProductSize] = useState<'Small' | 'Medium' | 'Large' | 'Combo'>('Medium');
+  const [newProductSize, setNewProductSize] = useState('Medium');
   const [newProductColor, setNewProductColor] = useState('Crimson Red');
   const [newProductStone, setNewProductStone] = useState('Standard Velvet');
   const [newProductDesc, setNewProductDesc] = useState('');
@@ -48,9 +41,9 @@ export default function AdminPanel({ lang, onRefreshData }: AdminPanelProps) {
   }, []);
 
   // Set default placeholder image based on category selection
-  const handleCategoryChange = (cat: string) => {
-    setNewProductCategory(cat as any);
-    const mockImages: Record<string, string> = {
+  const handleCategoryChange = (cat) => {
+    setNewProductCategory(cat);
+    const mockImages = {
       Bridal: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=300',
       Stone: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=300',
       Traditional: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=300',
@@ -60,7 +53,7 @@ export default function AdminPanel({ lang, onRefreshData }: AdminPanelProps) {
   };
 
   // Add Product REST callback
-  const handleAddProductSubmit = async (e: React.FormEvent) => {
+  const handleAddProductSubmit = async (e) => {
     e.preventDefault();
     if (!newProductName || !newProductImage) return;
 
@@ -95,7 +88,7 @@ export default function AdminPanel({ lang, onRefreshData }: AdminPanelProps) {
   };
 
   // Delete product REST callback
-  const handleDeleteProduct = async (id: string) => {
+  const handleDeleteProduct = async (id) => {
     if (!confirm("Are you sure you want to remove this bindi from stock? Devices will lose catalog synchronization.")) return;
     try {
       const response = await fetch(`/api/products/${id}`, { method: 'DELETE' });
@@ -109,7 +102,7 @@ export default function AdminPanel({ lang, onRefreshData }: AdminPanelProps) {
   };
 
   // Process status update on orders (REST)
-  const handleUpdateOrderStatus = async (orderId: string, status: 'Processing' | 'Shipped' | 'Delivered' | 'Returned') => {
+  const handleUpdateOrderStatus = async (orderId, status) => {
     try {
       const response = await fetch(`/api/orders/${orderId}`, {
         method: 'PUT',
@@ -211,7 +204,7 @@ export default function AdminPanel({ lang, onRefreshData }: AdminPanelProps) {
                 <label className="text-[10px] text-gray-400 font-bold uppercase">Size Code</label>
                 <select
                   value={newProductSize}
-                  onChange={(e) => setNewProductSize(e.target.value as any)}
+                  onChange={(e) => setNewProductSize(e.target.value)}
                   className="w-full bg-[#0b0708] border border-[#5c141d]/40 rounded-lg p-2 focus:outline-none"
                 >
                   <option value="Small">Small size</option>

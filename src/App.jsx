@@ -8,19 +8,18 @@ import ProductCatalog from './components/ProductCatalog';
 import CRMSystem from './components/CRMSystem';
 import AdminPanel from './components/AdminPanel';
 import AIChatbot from './components/AIChatbot';
-import { Product } from './types';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<string>('home'); // home, shop, ai, tryon, crm, admin
-  const [lang, setLang] = useState<'en' | 'hi'>('en');
-  const [products, setProducts] = useState<Product[]>([]);
+  const [currentTab, setCurrentTab] = useState('home'); // home, shop, ai, tryon, crm, admin
+  const [lang, setLang] = useState('en');
+  const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Cart & Wishlist hooks
-  const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
-  const [wishlist, setWishlist] = useState<string[]>([]);
-  const [recommendedBindiId, setRecommendedBindiId] = useState<string | null>(null);
-  const [selectedDetailId, setSelectedDetailId] = useState<string | null>(null);
+  const [cart, setCart] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [recommendedBindiId, setRecommendedBindiId] = useState(null);
+  const [selectedDetailId, setSelectedDetailId] = useState(null);
 
   // Global background fetch
   const retrieveProducts = async () => {
@@ -41,13 +40,13 @@ export default function App() {
   }, []);
 
   // Quick select details in shop
-  const handleSelectProduct = (productId: any) => {
+  const handleSelectProduct = (productId) => {
     setSelectedDetailId(productId);
     setCurrentTab('shop');
   };
 
   // Add lead on the go (API POST)
-  const handleAddLead = async (leadPayload: { name: string; email: string; phone: string; source: 'Try-On User' | 'Newsletter' | 'Contact Form' | 'WhatsApp'; notes: string }) => {
+  const handleAddLead = async (leadPayload) => {
     try {
       await fetch('/api/leads', {
         method: 'POST',
@@ -60,7 +59,7 @@ export default function App() {
   };
 
   // Cart Functions
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product) => {
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item.product.id === product.id);
       if (existing) {
@@ -72,7 +71,7 @@ export default function App() {
     });
   };
 
-  const handleRemoveFromCart = (productId: string) => {
+  const handleRemoveFromCart = (productId) => {
     setCart((prevCart) =>
       prevCart
         .map((item) =>
@@ -86,7 +85,7 @@ export default function App() {
     setCart([]);
   };
 
-  const handleToggleWishlist = (id: string) => {
+  const handleToggleWishlist = (id) => {
     setWishlist((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );

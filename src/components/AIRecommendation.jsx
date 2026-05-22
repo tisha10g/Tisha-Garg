@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
 import { Sparkles, RefreshCw, Eye, Camera, ArrowRight, User, ShoppingBag } from 'lucide-react';
-import { Product } from '../types';
-
-interface AIRecommendationProps {
-  lang: 'en' | 'hi';
-  products: Product[];
-  setCurrentTab: (tab: string) => void;
-  onSelectProduct: (productId: 'b1' | 'b2' | 'b3' | 'b4' | 'b5' | 'b6' | 'b7' | 'b8') => void;
-  setRecommendedBindiId: (id: string | null) => void;
-  onAddLead: (lead: { name: string; email: string; phone: string; source: 'Try-On User' | 'Newsletter' | 'Contact Form' | 'WhatsApp'; notes: string }) => void;
-}
-
 export default function AIRecommendation({
   lang,
   products,
@@ -18,12 +7,12 @@ export default function AIRecommendation({
   onSelectProduct,
   setRecommendedBindiId,
   onAddLead
-}: AIRecommendationProps) {
+}) {
   // Wizard state
-  const [faceShape, setFaceShape] = useState<'Round' | 'Oval' | 'Heart' | 'Square' | 'Diamond' | ''>('');
-  const [occasion, setOccasion] = useState<string>('');
-  const [outfit, setOutfit] = useState<string>('');
-  const [makeupStyle, setMakeupStyle] = useState<string>('');
+  const [faceShape, setFaceShape] = useState('');
+  const [occasion, setOccasion] = useState('');
+  const [outfit, setOutfit] = useState('');
+  const [makeupStyle, setMakeupStyle] = useState('');
   
   // Lead Capture Dialog (to increase conversion rate of AI user)
   const [customerName, setCustomerName] = useState('');
@@ -33,8 +22,8 @@ export default function AIRecommendation({
 
   // Recommendation states
   const [isLoading, setIsLoading] = useState(false);
-  const [recommendationResult, setRecommendationResult] = useState<any | null>(null);
-  const [matchedProducts, setMatchedProducts] = useState<Product[]>([]);
+  const [recommendationResult, setRecommendationResult] = useState(null);
+  const [matchedProducts, setMatchedProducts] = useState([]);
 
   const faceShapes = [
     { id: 'Round', name: lang === 'en' ? 'Round Face' : 'गोल चेहरा', desc: lang === 'en' ? 'Balanced width & length' : 'समान चौड़ाई और लंबाई', icon: '🔴' },
@@ -68,7 +57,7 @@ export default function AIRecommendation({
     { id: 'Minimal Makeup', name: lang === 'en' ? 'Fine Eyeliner & Gloss' : 'न्यूनतम मेकअप' }
   ];
 
-  const triggerAIRecommendation = async (e: React.FormEvent) => {
+  const triggerAIRecommendation = async (e) => {
     e.preventDefault();
     if (!faceShape || !occasion || !outfit || !makeupStyle) return;
 
@@ -160,7 +149,7 @@ export default function AIRecommendation({
                 return (
                   <button
                     key={shape.id}
-                    onClick={() => setFaceShape(shape.id as any)}
+                    onClick={() => setFaceShape(shape.id)}
                     className={`p-4 rounded-xl border text-left transition duration-300 cursor-pointer flex flex-col justify-between h-28 ${
                       isSel 
                         ? 'border-[#bc8f42] bg-[#5c141d]/20 text-white shadow-[0_0_12px_rgba(188,143,66,0.2)]' 
@@ -408,7 +397,7 @@ export default function AIRecommendation({
 
                     <div className="grid grid-cols-2 gap-2 pt-1 text-[11px] font-semibold text-center">
                       <button
-                        onClick={() => onSelectProduct(p.id as any)}
+                        onClick={() => onSelectProduct(p.id)}
                         className="py-1.5 px-3 bg-[#1c1214] border border-[#5c141d]/55 rounded-lg hover:bg-[#281c1f] text-white transition cursor-pointer"
                       >
                         Details
