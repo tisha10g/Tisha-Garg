@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cinzel", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-gold-50: #fbf8f3;
+  --color-gold-100: #f5eedf;
+  --color-gold-200: #ebdcb9;
+  --color-gold-300: #ddc48b;
+  --color-gold-400: #cca75d;
+  --color-gold-500: #bc8f42;
+  --color-gold-600: #9c7130;
+  
+  --color-maroon-50: #fdf3f4;
+  --color-maroon-100: #fbe6e8;
+  --color-maroon-200: #f7ced2;
+  --color-maroon-300: #eFA3AA;
+  --color-maroon-400: #e27581;
+  --color-maroon-500: #c24050;
+  --color-maroon-600: #a12b3a;
+  --color-maroon-700: #811e2a;
+  --color-maroon-800: #5c141d;
+  --color-maroon-900: #420f15;
+}
+
+/* Base style resets and customizations */
+body {
+  font-family: var(--font-sans);
+  background-color: #0b0708; /* Luxury rich charcoal dark base */
+  color: #ebdcb9; /* Luxury warm beige */
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar matching brand colors */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0708;
+}
+::-webkit-scrollbar-thumb {
+  background: #5c141d;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bc8f42;
+}
